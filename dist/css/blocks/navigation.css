@@ -1,0 +1,16 @@
+.navigation {
+  padding: 25px 55px;
+  position: fixed;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+  .navigation h1 {
+    text-decoration: uppercase; }
+  .navigation__links {
+    list-style-type: none;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
