@@ -49,3 +49,7 @@ body {
   height: 120px;
   width: 120px;
 }
+
+.selected {
+  border: 4px solid blue;
+}

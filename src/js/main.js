@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.add('card');
 
         // Добавляем каждому созданному div'у data-аттрибут
-        card.dataset.name = item.name;
+        card.dataset.stars = item.stars;
 
         // Добавляем div'у с объектом фон из значения этого объекта
         card.style.backgroundImage = `url(${item.img})`;
@@ -284,6 +284,22 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.appendChild(card);
     });
 
+
+
+    // Добавляем обработчик события для каждого дочернего элемента сетки, чтобы отметить выбранную карту
+    const allCards = wrapper.childNodes;
+
+    allCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const cardStars = card.dataset.stars; // Вычисляем значение stars у 'кликнутого' элемента
+
+            // Удаляем класс selected у всеъ элементов
+            allCards.forEach(item => item.classList.remove('selected'));
+
+            // Добавляем класс selected тем элементам, значения stars которых равно stars 'кликнутого' элемента
+            [...allCards].filter(item => item.dataset.stars === cardStars).map(item => item.classList.add('selected'));
+        });
+    });
 
 
 
