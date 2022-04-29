@@ -259,10 +259,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     shuffle(cardsArr);
 
+    // Счетчик для выбора не более 2 карт
+    let count = 0;
+
     //Game - корень для всего приложения. Создаем внутри него элемент который будет сеткой.
 
     const game = document.querySelector('#game');
-
     const wrapper = document.createElement('section');
     wrapper.classList.add('wrapper');
 
@@ -287,14 +289,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Добавляем обработчик события для каждого дочернего элемента сетки, чтобы отметить выбранную карту
     const allCards = wrapper.childNodes;
+    let selectedCards = [];
 
     allCards.forEach(card => {
         card.addEventListener('click', () => {
             const cardStars = card.dataset.stars; // Вычисляем значение stars у 'кликнутой' карты
 
             // Получаем новый массив с картами, значения stars которых равно stars 'кликнутой' карты
-            let newAllCards = [...allCards].filter(item => item.dataset.stars === cardStars);
-            console.log(newAllCards)
+            selectedCards = [...allCards].filter(item => item.dataset.stars === cardStars);
 
             // Удаляем все дочерние элементы из wrapper
             while (wrapper.firstChild) {
@@ -302,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Создаем новые карты на основе полученного массива newAllCards
-            newAllCards.forEach(item => {
+            selectedCards.forEach(item => {
                 // Создаем div для каждого объекта в массиве и добавляем ему класс card
                 const card = document.createElement('div');
                 card.classList.add('card');
@@ -317,10 +319,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 wrapper.appendChild(card);
             });
 
+            // Работаем с получившимися картами. Добавляем обработчик событий на оставшиеся карты
+            allCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Элемент события
+                    let clicked = e.target;
+
+                    // Чтобы не выбиралось ничего кроме карт
+                    if (clicked.nodeName === 'SECTION') {
+                        return
+                    }
+
+                    if (count < 2) {
+                        count++;
+                        // Добавляем класс выбранным картам
+                        clicked.classList.add('selected');
+                    }
+                })
+            })
         });
     });
 
-    // console.log(cardsArr);
+
 
 
 });

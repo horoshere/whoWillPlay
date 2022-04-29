@@ -4351,7 +4351,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return arr;
   }
 
-  shuffle(cardsArr); //Game - корень для всего приложения. Создаем внутри него элемент который будет сеткой.
+  shuffle(cardsArr); // Счетчик для выбора не более 2 карт
+
+  var count = 0; //Game - корень для всего приложения. Создаем внутри него элемент который будет сеткой.
 
   var game = document.querySelector('#game');
   var wrapper = document.createElement('section');
@@ -4371,23 +4373,22 @@ document.addEventListener('DOMContentLoaded', function () {
   }); // Добавляем обработчик события для каждого дочернего элемента сетки, чтобы отметить выбранную карту
 
   var allCards = wrapper.childNodes;
+  var selectedCards = [];
   allCards.forEach(function (card) {
     card.addEventListener('click', function () {
       var cardStars = card.dataset.stars; // Вычисляем значение stars у 'кликнутой' карты
       // Получаем новый массив с картами, значения stars которых равно stars 'кликнутой' карты
 
-      var newAllCards = _toConsumableArray(allCards).filter(function (item) {
+      selectedCards = _toConsumableArray(allCards).filter(function (item) {
         return item.dataset.stars === cardStars;
-      });
-
-      console.log(newAllCards); // Удаляем все дочерние элементы из wrapper
+      }); // Удаляем все дочерние элементы из wrapper
 
       while (wrapper.firstChild) {
         wrapper.removeChild(wrapper.firstChild);
       } // Создаем новые карты на основе полученного массива newAllCards
 
 
-      newAllCards.forEach(function (item) {
+      selectedCards.forEach(function (item) {
         // Создаем div для каждого объекта в массиве и добавляем ему класс card
         var card = document.createElement('div');
         card.classList.add('card'); // Добавляем каждому созданному div'у data-аттрибут
@@ -4397,9 +4398,26 @@ document.addEventListener('DOMContentLoaded', function () {
         card.style.backgroundImage = item.style.backgroundImage; // Добавляем div в сетку
 
         wrapper.appendChild(card);
+      }); // Работаем с получившимися картами. Добавляем обработчик событий на оставшиеся карты
+
+      allCards.forEach(function (card) {
+        card.addEventListener('click', function (e) {
+          // Элемент события
+          var clicked = e.target; // Чтобы не выбиралось ничего кроме карт
+
+          if (clicked.nodeName === 'SECTION') {
+            return;
+          }
+
+          if (count < 2) {
+            count++; // Добавляем класс выбранным картам
+
+            clicked.classList.add('selected');
+          }
+        });
       });
     });
-  }); // console.log(cardsArr);
+  });
 });
 
 /***/ })
