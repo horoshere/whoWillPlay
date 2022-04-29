@@ -246,18 +246,18 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Рандомизировать сетку при каждой загрузки
-        function shuffle(arr) {
-            let j, temp;
-            for (let i = arr.length - 1; i > 0; i--) {
-                j = Math.floor(Math.random() * (i + 1));
-                temp = arr[j];
-                arr[j] = arr[i];
-                arr[i] = temp;
-            }
-            return arr;
+    function shuffle(arr) {
+        let j, temp;
+        for (let i = arr.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            temp = arr[j];
+            arr[j] = arr[i];
+            arr[i] = temp;
         }
+        return arr;
+    }
 
-        shuffle(cardsArr);
+    shuffle(cardsArr);
 
     //Game - корень для всего приложения. Создаем внутри него элемент который будет сеткой.
 
@@ -285,24 +285,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-
     // Добавляем обработчик события для каждого дочернего элемента сетки, чтобы отметить выбранную карту
     const allCards = wrapper.childNodes;
 
     allCards.forEach(card => {
         card.addEventListener('click', () => {
-            const cardStars = card.dataset.stars; // Вычисляем значение stars у 'кликнутого' элемента
+            const cardStars = card.dataset.stars; // Вычисляем значение stars у 'кликнутой' карты
 
-            // Удаляем класс selected у всеъ элементов
-            allCards.forEach(item => item.classList.remove('selected'));
+            // Получаем новый массив с картами, значения stars которых равно stars 'кликнутой' карты
+            let newAllCards = [...allCards].filter(item => item.dataset.stars === cardStars);
+            console.log(newAllCards)
 
-            // Добавляем класс selected тем элементам, значения stars которых равно stars 'кликнутого' элемента
-            [...allCards].filter(item => item.dataset.stars === cardStars).map(item => item.classList.add('selected'));
+            // Удаляем все дочерние элементы из wrapper
+            while (wrapper.firstChild) {
+                wrapper.removeChild(wrapper.firstChild);
+            }
+
+            // Создаем новые карты на основе полученного массива newAllCards
+            newAllCards.forEach(item => {
+                // Создаем div для каждого объекта в массиве и добавляем ему класс card
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                // Добавляем каждому созданному div'у data-аттрибут
+                card.dataset.stars = item.dataset.stars;
+
+                // Добавляем div'у с объектом фон из значения этого объекта
+                card.style.backgroundImage = item.style.backgroundImage;
+
+                // Добавляем div в сетку
+                wrapper.appendChild(card);
+            });
+
         });
     });
 
-
-
+    // console.log(cardsArr);
 
 
 });
