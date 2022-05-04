@@ -4353,7 +4353,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   shuffle(cardsArr); // Счетчик для выбора не более 2 карт
 
-  var count = 0; //Game - корень для всего приложения. Создаем внутри него элемент который будет сеткой.
+  var count = 0;
+  var previousTarget = null; //Game - корень для всего приложения. Создаем внутри него элемент который будет сеткой.
 
   var game = document.querySelector('#game');
   var wrapper = document.createElement('section');
@@ -4385,7 +4386,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       while (wrapper.firstChild) {
         wrapper.removeChild(wrapper.firstChild);
-      } // Создаем новые карты на основе полученного массива newAllCards
+      } // Создаем новые карты на основе полученного массива selectedCards
 
 
       selectedCards.forEach(function (item) {
@@ -4403,16 +4404,18 @@ document.addEventListener('DOMContentLoaded', function () {
       allCards.forEach(function (card) {
         card.addEventListener('click', function (e) {
           // Элемент события
-          var clicked = e.target; // Чтобы не выбиралось ничего кроме карт
+          var clicked = e.target; // Чтобы не выбиралось ничего кроме карт; и чтобы нельзя было выбрать одну и ту же карту
 
-          if (clicked.nodeName === 'SECTION') {
+          if (clicked.nodeName === 'SECTION' || clicked === previousTarget) {
             return;
           }
 
           if (count < 2) {
             count++; // Добавляем класс выбранным картам
 
-            clicked.classList.add('selected');
+            clicked.classList.add('selected'); // Назначаем значение clicked prevousTarget после первого щелчка.
+
+            previousTarget = clicked;
           }
         });
       });
