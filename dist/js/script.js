@@ -4362,15 +4362,21 @@ document.addEventListener('DOMContentLoaded', function () {
   game.appendChild(wrapper); // Для каждого объекта внутри cardsArr
 
   cardsArr.forEach(function (item) {
-    // Создаем div для каждого объекта в массиве и добавляем ему класс card
+    // Создаем div для каждого объекта в массиве, добавляем ему класс card и атрибут из dataset stars
     var card = document.createElement('div');
-    card.classList.add('card'); // Добавляем каждому созданному div'у data-аттрибут
+    card.classList.add('card');
+    card.dataset.stars = item.stars; // Создаем лицевую сторону карточки
 
-    card.dataset.stars = item.stars; // Добавляем div'у с объектом фон из значения этого объекта
+    var front = document.createElement('div');
+    front.classList.add('front'); // Создаем обратную сторону карты, с содержанием
 
-    card.style.backgroundImage = "url(".concat(item.img, ")"); // Добавляем div в сетку
+    var back = document.createElement('div');
+    back.classList.add('back');
+    back.style.backgroundImage = "url(".concat(item.img, ")"); // Добавляем в сетку карту а также переднюю и заднюю часть каждой карты
 
     wrapper.appendChild(card);
+    card.appendChild(front);
+    card.appendChild(back);
   }); // Добавляем обработчик события для каждого дочернего элемента сетки, чтобы отметить выбранную карту
 
   var allCards = wrapper.childNodes;
@@ -4390,15 +4396,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
       selectedCards.forEach(function (item) {
-        // Создаем div для каждого объекта в массиве и добавляем ему класс card
+        // Создаем div для каждого объекта в массиве, добавляем ему класс card и атрибут из dataset stars
         var card = document.createElement('div');
-        card.classList.add('card'); // Добавляем каждому созданному div'у data-аттрибут
+        card.classList.add('card'); // Создаем лицевую сторону карточки
 
-        card.dataset.stars = item.dataset.stars; // Добавляем div'у с объектом фон из значения этого объекта
+        var front = document.createElement('div');
+        front.classList.add('front'); // Создаем обратную сторону карты, с содержанием
 
-        card.style.backgroundImage = item.style.backgroundImage; // Добавляем div в сетку
+        var back = document.createElement('div');
+        back.classList.add('back');
+        back.style.backgroundImage = item.lastChild.style.backgroundImage; // Добавляем в сетку карту а также переднюю и заднюю часть каждой карты
 
         wrapper.appendChild(card);
+        card.appendChild(front);
+        card.appendChild(back);
       }); // Работаем с получившимися картами. Добавляем обработчик событий на оставшиеся карты
 
       allCards.forEach(function (card) {
@@ -4413,7 +4424,7 @@ document.addEventListener('DOMContentLoaded', function () {
           if (count < 2) {
             count++; // Добавляем класс выбранным картам
 
-            clicked.classList.add('selected'); // Назначаем значение clicked prevousTarget после первого щелчка.
+            clicked.parentNode.classList.add('selected'); // Назначаем значение clicked previousTarget после первого щелчка.
 
             previousTarget = clicked;
           }

@@ -38,20 +38,34 @@ body {
 }
 
 .card {
+  position: relative;
+  transition: all .4s linear;
+  transform-style: preserve-3d;
   margin: 5px;
-  background-color: #001e28;
+  height: 150px;
+  width: 150px;
+}
+
+.back {
+  height: 150px;
+  width: 150px;
+  position: absolute;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
-  height: 120px;
-  width: 120px;
+}
+
+.front {
+  height: 150px;
+  width: 150px;
+  position: absolute;
+  backface-visibility: hidden;
+  z-index: 2;
+  background: #FAB942 url('../img/suiii.jpg') no-repeat center center / contain;
 }
 
 .selected {
-  border: 4px solid blue;
-}
-
-.match {
-  border: 4px solid red;
-  background-image: none !important;
+  transform: rotateY(180deg);
 }
