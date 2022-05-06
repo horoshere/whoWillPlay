@@ -1,14 +1,14 @@
 .nav {
   position: fixed;
   height: 70px;
-  top: 25px;
-  //transform: translateY(-10%);
-  left: 25px;
+  bottom: 5%;
+  left: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   &__info {
+    cursor: pointer;
     transition: all 0.3s;
     &:hover {
       color: #ff0046;

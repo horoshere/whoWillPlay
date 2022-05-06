@@ -77,14 +77,15 @@ body {
 .nav {
   position: fixed;
   height: 70px;
-  top: 25px;
-  left: 25px;
+  bottom: 5%;
+  left: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
 }
 .nav__info {
+  cursor: pointer;
   transition: all 0.3s;
 }
 .nav__info:hover {
