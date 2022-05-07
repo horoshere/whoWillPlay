@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     let clicked = e.target;
 
                     // Чтобы не выбиралось ничего кроме карт; и чтобы нельзя было выбрать одну и ту же карту
-                    if (clicked.nodeName === 'SECTION' || clicked === previousTarget) {
+                    if (clicked.nodeName === 'SECTION' || clicked === previousTarget || clicked.parentNode.classList.contains('selected')) {
                         return
                     }
 
@@ -352,12 +352,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Назначаем значение clicked previousTarget после первого щелчка.
                         previousTarget = clicked;
+                        console.log(previousTarget)
                     }
                 });
             });
         });
     });
-
 
 
     // Modal
@@ -367,14 +367,14 @@ document.addEventListener('DOMContentLoaded', () => {
         cross = document.querySelector('.modal__close');
 
     function showModal() {
-        modal.classList.add('active');
+        modal.classList.add('modal__active');
         document.body.style.overflow = 'hidden';
     }
 
     triggerModal.addEventListener('click', showModal);
 
     function closeModal() {
-        modal.classList.remove('active');
+        modal.classList.remove('modal__active');
         document.body.style.overflow = '';
     }
 
@@ -388,10 +388,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.code === 'Escape' && modal.classList.contains('active')) {
+        if (e.code === 'Escape' && modal.classList.contains('modal__active')) {
             closeModal();
         }
     });
 
 
+    // Hamburger
+
+    const ham = document.querySelector('.hamburger'),
+        nav = document.querySelector('.nav');
+
+    ham.addEventListener('click', () => {
+        ham.classList.toggle('hamburger__active');
+        nav.classList.toggle('nav__active');
+    });
+
+
+    // document.addEventListener('click', (e) => {
+    //     if (ham.classList.contains('hamburger__active') && nav.classList.contains('nav__active') && e.target !== nav) {
+    //         ham.classList.remove('hamburger__active');
+    //         nav.classList.remove('nav__active');
+    //     }
+    // });
+
+
+
+//         //  ф-ия для прокрутки
+//     setInterval(function() {
+// 	window.scrollTo(0, document.body.scrollHeight);
+// }, 1000);
 });
