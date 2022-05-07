@@ -279,6 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.classList.add('card');
         card.dataset.stars = item.stars;
+        card.style.cursor = 'pointer';
 
         // Создаем лицевую сторону карточки
         const front = document.createElement('div');
@@ -317,6 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  // Создаем div для каждого объекта в массиве, добавляем ему класс card и атрибут из dataset stars
                 const card = document.createElement('div');
                 card.classList.add('card');
+                card.style.cursor = 'pointer';
 
                 // Создаем лицевую сторону карточки
                 const front = document.createElement('div');

@@ -4365,7 +4365,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Создаем div для каждого объекта в массиве, добавляем ему класс card и атрибут из dataset stars
     var card = document.createElement('div');
     card.classList.add('card');
-    card.dataset.stars = item.stars; // Создаем лицевую сторону карточки
+    card.dataset.stars = item.stars;
+    card.style.cursor = 'pointer'; // Создаем лицевую сторону карточки
 
     var front = document.createElement('div');
     front.classList.add('front'); // Создаем обратную сторону карты, с содержанием
@@ -4398,7 +4399,8 @@ document.addEventListener('DOMContentLoaded', function () {
       selectedCards.forEach(function (item) {
         // Создаем div для каждого объекта в массиве, добавляем ему класс card и атрибут из dataset stars
         var card = document.createElement('div');
-        card.classList.add('card'); // Создаем лицевую сторону карточки
+        card.classList.add('card');
+        card.style.cursor = 'pointer'; // Создаем лицевую сторону карточки
 
         var front = document.createElement('div');
         front.classList.add('front'); // Создаем обратную сторону карты, с содержанием
