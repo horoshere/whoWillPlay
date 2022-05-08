@@ -410,11 +410,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hamburger
 
     const ham = document.querySelector('.hamburger'),
-        nav = document.querySelector('.nav');
+        nav = document.querySelector('.nav'),
+        navLinks = nav.childNodes;
 
-    ham.addEventListener('click', () => {
+    function toggleHam() {
         ham.classList.toggle('hamburger__active');
         nav.classList.toggle('nav__active');
+    }
+
+    ham.addEventListener('click', toggleHam);
+
+    navLinks.forEach(item => {
+        item.addEventListener('click', toggleHam);
     });
 
 

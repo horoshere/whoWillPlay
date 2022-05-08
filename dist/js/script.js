@@ -4537,10 +4537,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }); // Hamburger
 
   var ham = document.querySelector('.hamburger'),
-      nav = document.querySelector('.nav');
-  ham.addEventListener('click', function () {
+      nav = document.querySelector('.nav'),
+      navLinks = nav.childNodes;
+
+  function toggleHam() {
     ham.classList.toggle('hamburger__active');
     nav.classList.toggle('nav__active');
+  }
+
+  ham.addEventListener('click', toggleHam);
+  navLinks.forEach(function (item) {
+    item.addEventListener('click', toggleHam);
   });
 });
 
