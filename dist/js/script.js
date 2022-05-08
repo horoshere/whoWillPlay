@@ -3087,6 +3087,25 @@ module.exports = DESCRIPTORS && fails(function () {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/validate-arguments-length.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/core-js/internals/validate-arguments-length.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(/*! ../internals/global */ "./node_modules/core-js/internals/global.js");
+
+var TypeError = global.TypeError;
+
+module.exports = function (passed, required) {
+  if (passed < required) throw TypeError('Not enough arguments');
+  return passed;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/well-known-symbol-wrapped.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/core-js/internals/well-known-symbol-wrapped.js ***!
@@ -4039,6 +4058,49 @@ handlePrototype(DOMTokenListPrototype, 'DOMTokenList');
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/web.timers.js":
+/*!****************************************************!*\
+  !*** ./node_modules/core-js/modules/web.timers.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var global = __webpack_require__(/*! ../internals/global */ "./node_modules/core-js/internals/global.js");
+var apply = __webpack_require__(/*! ../internals/function-apply */ "./node_modules/core-js/internals/function-apply.js");
+var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/core-js/internals/is-callable.js");
+var userAgent = __webpack_require__(/*! ../internals/engine-user-agent */ "./node_modules/core-js/internals/engine-user-agent.js");
+var arraySlice = __webpack_require__(/*! ../internals/array-slice */ "./node_modules/core-js/internals/array-slice.js");
+var validateArgumentsLength = __webpack_require__(/*! ../internals/validate-arguments-length */ "./node_modules/core-js/internals/validate-arguments-length.js");
+
+var MSIE = /MSIE .\./.test(userAgent); // <- dirty ie9- check
+var Function = global.Function;
+
+var wrap = function (scheduler) {
+  return function (handler, timeout /* , ...arguments */) {
+    var boundArgs = validateArgumentsLength(arguments.length, 1) > 2;
+    var fn = isCallable(handler) ? handler : Function(handler);
+    var args = boundArgs ? arraySlice(arguments, 2) : undefined;
+    return scheduler(boundArgs ? function () {
+      apply(fn, this, args);
+    } : fn, timeout);
+  };
+};
+
+// ie9- setTimeout & setInterval additional parameters fix
+// https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers
+$({ global: true, bind: true, forced: MSIE }, {
+  // `setTimeout` method
+  // https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout
+  setTimeout: wrap(global.setTimeout),
+  // `setInterval` method
+  // https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-setinterval
+  setInterval: wrap(global.setInterval)
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/webpack-stream/node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -4111,6 +4173,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_14__);
 /* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
 /* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var core_js_modules_web_timers__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! core-js/modules/web.timers */ "./node_modules/core-js/modules/web.timers.js");
+/* harmony import */ var core_js_modules_web_timers__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_timers__WEBPACK_IMPORTED_MODULE_16__);
+
 
 
 
@@ -4384,55 +4449,61 @@ document.addEventListener('DOMContentLoaded', function () {
   var selectedCards = [];
   allCards.forEach(function (card) {
     card.addEventListener('click', function () {
+      // Анимация для всех карт
+      allCards.forEach(function (item) {
+        item.classList.add('animation');
+      });
       var cardStars = card.dataset.stars; // Вычисляем значение stars у 'кликнутой' карты
       // Получаем новый массив с картами, значения stars которых равно stars 'кликнутой' карты
 
       selectedCards = _toConsumableArray(allCards).filter(function (item) {
         return item.dataset.stars === cardStars;
-      }); // Удаляем все дочерние элементы из wrapper
-
-      while (wrapper.firstChild) {
-        wrapper.removeChild(wrapper.firstChild);
-      } // Создаем новые карты на основе полученного массива selectedCards
-
-
-      selectedCards.forEach(function (item) {
-        // Создаем div для каждого объекта в массиве, добавляем ему класс card и атрибут из dataset stars
-        var card = document.createElement('div');
-        card.classList.add('card');
-        card.style.cursor = 'pointer'; // Создаем лицевую сторону карточки
-
-        var front = document.createElement('div');
-        front.classList.add('front'); // Создаем обратную сторону карты, с содержанием
-
-        var back = document.createElement('div');
-        back.classList.add('back');
-        back.style.backgroundImage = item.lastChild.style.backgroundImage; // Добавляем в сетку карту а также переднюю и заднюю часть каждой карты
-
-        wrapper.appendChild(card);
-        card.appendChild(front);
-        card.appendChild(back);
-      }); // Работаем с получившимися картами. Добавляем обработчик событий на оставшиеся карты
-
-      allCards.forEach(function (card) {
-        card.addEventListener('click', function (e) {
-          // Элемент события
-          var clicked = e.target; // Чтобы не выбиралось ничего кроме карт; и чтобы нельзя было выбрать одну и ту же карту
-
-          if (clicked.nodeName === 'SECTION' || clicked === previousTarget || clicked.parentNode.classList.contains('selected')) {
-            return;
-          }
-
-          if (count < 2) {
-            count++; // Добавляем класс выбранным картам
-
-            clicked.parentNode.classList.add('selected'); // Назначаем значение clicked previousTarget после первого щелчка.
-
-            previousTarget = clicked;
-            console.log(previousTarget);
-          }
-        });
       });
+      setTimeout(function () {
+        // Удаляем все дочерние элементы из wrapper
+        while (wrapper.firstChild) {
+          wrapper.removeChild(wrapper.firstChild);
+        } // Создаем новые карты на основе полученного массива selectedCards
+
+
+        selectedCards.forEach(function (item) {
+          // Создаем div для каждого объекта в массиве, добавляем ему класс card и атрибут из dataset stars
+          var card = document.createElement('div');
+          card.classList.add('card');
+          card.style.cursor = 'pointer'; // Создаем лицевую сторону карточки
+
+          var front = document.createElement('div');
+          front.classList.add('front'); // Создаем обратную сторону карты, с содержанием
+
+          var back = document.createElement('div');
+          back.classList.add('back');
+          back.style.backgroundImage = item.lastChild.style.backgroundImage; // Добавляем в сетку карту а также переднюю и заднюю часть каждой карты
+
+          wrapper.appendChild(card);
+          card.appendChild(front);
+          card.appendChild(back); // Работаем с получившимися картами. Добавляем обработчик событий на оставшиеся карты
+
+          allCards.forEach(function (card) {
+            card.addEventListener('click', function (e) {
+              // Элемент события
+              var clicked = e.target; // Чтобы не выбиралось ничего кроме карт; и чтобы нельзя было выбрать одну и ту же карту
+
+              if (clicked.nodeName === 'SECTION' || clicked === previousTarget || clicked.parentNode.classList.contains('selected')) {
+                return;
+              }
+
+              if (count < 2) {
+                count++; // Добавляем класс выбранным картам
+
+                clicked.parentNode.classList.add('selected'); // Назначаем значение clicked previousTarget после первого щелчка.
+
+                previousTarget = clicked;
+                console.log(previousTarget);
+              }
+            });
+          });
+        });
+      }, 500);
     });
   }); // Modal
 
@@ -4470,16 +4541,7 @@ document.addEventListener('DOMContentLoaded', function () {
   ham.addEventListener('click', function () {
     ham.classList.toggle('hamburger__active');
     nav.classList.toggle('nav__active');
-  }); // document.addEventListener('click', (e) => {
-  //     if (ham.classList.contains('hamburger__active') && nav.classList.contains('nav__active') && e.target !== nav) {
-  //         ham.classList.remove('hamburger__active');
-  //         nav.classList.remove('nav__active');
-  //     }
-  // });
-  //         //  ф-ия для прокрутки
-  //     setInterval(function() {
-  // 	window.scrollTo(0, document.body.scrollHeight);
-  // }, 1000);
+  });
 });
 
 /***/ })

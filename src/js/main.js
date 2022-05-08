@@ -303,61 +303,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
     allCards.forEach(card => {
         card.addEventListener('click', () => {
+
+            // Анимация для всех карт
+            allCards.forEach(item => {
+                item.classList.add('animation');
+            });
+
+
             const cardStars = card.dataset.stars; // Вычисляем значение stars у 'кликнутой' карты
 
             // Получаем новый массив с картами, значения stars которых равно stars 'кликнутой' карты
             selectedCards = [...allCards].filter(item => item.dataset.stars === cardStars);
 
-            // Удаляем все дочерние элементы из wrapper
-            while (wrapper.firstChild) {
-                wrapper.removeChild(wrapper.firstChild);
-            }
 
-            // Создаем новые карты на основе полученного массива selectedCards
-            selectedCards.forEach(item => {
-                 // Создаем div для каждого объекта в массиве, добавляем ему класс card и атрибут из dataset stars
-                const card = document.createElement('div');
-                card.classList.add('card');
-                card.style.cursor = 'pointer';
+            setTimeout(function () {
 
-                // Создаем лицевую сторону карточки
-                const front = document.createElement('div');
-                front.classList.add('front');
+                // Удаляем все дочерние элементы из wrapper
+                while (wrapper.firstChild) {
+                    wrapper.removeChild(wrapper.firstChild);
+                }
 
-                // Создаем обратную сторону карты, с содержанием
-                const back = document.createElement('div');
-                back.classList.add('back');
-                back.style.backgroundImage = item.lastChild.style.backgroundImage;
+                // Создаем новые карты на основе полученного массива selectedCards
+                selectedCards.forEach(item => {
+                    // Создаем div для каждого объекта в массиве, добавляем ему класс card и атрибут из dataset stars
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    card.style.cursor = 'pointer';
+
+                    // Создаем лицевую сторону карточки
+                    const front = document.createElement('div');
+                    front.classList.add('front');
+
+                    // Создаем обратную сторону карты, с содержанием
+                    const back = document.createElement('div');
+                    back.classList.add('back');
+                    back.style.backgroundImage = item.lastChild.style.backgroundImage;
 
 
-                // Добавляем в сетку карту а также переднюю и заднюю часть каждой карты
-                wrapper.appendChild(card);
-                card.appendChild(front);
-                card.appendChild(back);
-            });
+                    // Добавляем в сетку карту а также переднюю и заднюю часть каждой карты
+                    wrapper.appendChild(card);
+                    card.appendChild(front);
+                    card.appendChild(back);
 
-            // Работаем с получившимися картами. Добавляем обработчик событий на оставшиеся карты
-            allCards.forEach(card => {
-                card.addEventListener('click', (e) => {
-                    // Элемент события
-                    let clicked = e.target;
+                    // Работаем с получившимися картами. Добавляем обработчик событий на оставшиеся карты
+                    allCards.forEach(card => {
+                        card.addEventListener('click', (e) => {
+                            // Элемент события
+                            let clicked = e.target;
 
-                    // Чтобы не выбиралось ничего кроме карт; и чтобы нельзя было выбрать одну и ту же карту
-                    if (clicked.nodeName === 'SECTION' || clicked === previousTarget || clicked.parentNode.classList.contains('selected')) {
-                        return
-                    }
+                            // Чтобы не выбиралось ничего кроме карт; и чтобы нельзя было выбрать одну и ту же карту
+                            if (clicked.nodeName === 'SECTION' || clicked === previousTarget || clicked.parentNode.classList.contains('selected')) {
+                                return
+                            }
 
-                    if (count < 2) {
-                        count++;
-                        // Добавляем класс выбранным картам
-                        clicked.parentNode.classList.add('selected');
+                            if (count < 2) {
+                                count++;
+                                // Добавляем класс выбранным картам
+                                clicked.parentNode.classList.add('selected');
 
-                        // Назначаем значение clicked previousTarget после первого щелчка.
-                        previousTarget = clicked;
-                        console.log(previousTarget)
-                    }
+                                // Назначаем значение clicked previousTarget после первого щелчка.
+                                previousTarget = clicked;
+                                console.log(previousTarget)
+                            }
+                        });
+                    });
                 });
-            });
+            }, 500);
         });
     });
 
@@ -407,17 +418,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // document.addEventListener('click', (e) => {
-    //     if (ham.classList.contains('hamburger__active') && nav.classList.contains('nav__active') && e.target !== nav) {
-    //         ham.classList.remove('hamburger__active');
-    //         nav.classList.remove('nav__active');
-    //     }
-    // });
-
-
-
-//         //  ф-ия для прокрутки
-//     setInterval(function() {
-// 	window.scrollTo(0, document.body.scrollHeight);
-// }, 1000);
 });

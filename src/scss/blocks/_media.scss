@@ -42,7 +42,7 @@
     height: 100vh;
     padding: 20px 15px;
     justify-content: center;
-    background-color: rgba(0,0,0,.8);
+    background-color: rgba(0,20,30,0.8);
     transition: .6s all;
     &__active {
       left: 0;
@@ -55,8 +55,8 @@
 
 @media (max-width: 576px) {
   .card, .front, .back {
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
   }
   .wrapper {
     max-width: 100%;

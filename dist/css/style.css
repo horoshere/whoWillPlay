@@ -195,6 +195,46 @@ body {
   transform: translateY(3px) rotate(45deg);
 }
 
+.animation {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
 @media (max-width: 1300px) {
   .wrapper {
     max-width: 650px;
@@ -232,7 +272,7 @@ body {
     height: 100vh;
     padding: 20px 15px;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 20, 30, 0.8);
     transition: 0.6s all;
   }
   .nav__active {
@@ -244,8 +284,8 @@ body {
 }
 @media (max-width: 576px) {
   .card, .front, .back {
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
   }
 
   .wrapper {
