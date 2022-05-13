@@ -18,4 +18,4 @@
 3. Откройте вторую команду. 
 
 
-![example](https://sun9-27.userapi.com/s/v1/ig2/WwxrjlNoldGKCKd4vACjVc7OEnhedfyzMkAzRr3z1od11JO5Id2TvYs-cM4URvcc7rinic27lDoCQCEZ-AexATB4.jpg?size=314x318&quality=95&type=album)
+![example](https://vk.com/doc315274014_638251788?hash=noBY5Bp8KntDNUWy6NbHSw07kvM3goE3SVfKMkWc7bD&dl=pxvEVt0zX1iUu9wOnZmeWSgDLoCseZjGBBq5M42Jfkk)
