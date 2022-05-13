@@ -17,5 +17,4 @@
 2. Откройте первую команду.
 3. Откройте вторую команду. 
 
-
-![example](https://vk.com/doc315274014_638251788?hash=noBY5Bp8KntDNUWy6NbHSw07kvM3goE3SVfKMkWc7bD&dl=pxvEVt0zX1iUu9wOnZmeWSgDLoCseZjGBBq5M42Jfkk)
+![chrome-capture-2022-4-13 (1)](https://user-images.githubusercontent.com/85732162/168296329-bb62a4d8-5777-4b68-ad00-ac848cd452f2.gif)
